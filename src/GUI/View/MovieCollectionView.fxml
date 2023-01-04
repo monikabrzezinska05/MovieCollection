@@ -26,11 +26,11 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="AddMovie" layoutX="1108.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleAddMovie" text="Add" />
-      <Button fx:id="DeleteMovie" layoutX="1169.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleDeleteMovie" text="Delete" />
-      <Button fx:id="RateMovie" layoutX="469.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleRateMovie" text="Rate" />
-      <Button fx:id="AddCategory" layoutX="303.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleAddCategory" text="Add" />
-      <Button fx:id="DeleteCategory" layoutX="355.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleDeleteCategory" text="Delete" />
+      <Button fx:id="addMovie" layoutX="1108.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleAddMovie" text="Add" />
+      <Button fx:id="deleteMovie" layoutX="1169.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleDeleteMovie" text="Delete" />
+      <Button fx:id="rateMovie" layoutX="469.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleRateMovie" text="Rate" />
+      <Button fx:id="addCategory" layoutX="303.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleAddCategory" text="Add" />
+      <Button fx:id="deleteCategory" layoutX="355.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleDeleteCategory" text="Delete" />
       <TextField layoutX="1061.0" layoutY="25.0" />
    </children>
 </AnchorPane>
