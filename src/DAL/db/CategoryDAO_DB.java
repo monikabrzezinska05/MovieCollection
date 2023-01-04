@@ -2,9 +2,12 @@ package DAL.db;
 
 import BE.Category;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CategoryDAO_DB {
+public class CategoryDAO_DB implements ICategoryDAO {
     private DatabaseConnector databaseConnector;
 
     public CategoryDAO_DB() {
@@ -40,6 +43,29 @@ public class CategoryDAO_DB {
             ex.printStackTrace();
             throw new Exception("Could not create category", ex);
         }
+    }
+
+    @Override
+    public List<Category> getCategories() throws Exception {
+
+        try(Connection connection = databaseConnector.getConnection()) {
+            String sql = "SELECT * FROM Categories;";
+
+            Statement statement = connection.createStatement();
+
+            var resultSet = statement.executeQuery(sql);
+
+            var resultList = new ArrayList<Category>();
+
+            while(resultSet.next()) {
+                resultList.add(new Category(
+                    resultSet.getString("Name")
+                ));
+            }
+
+            return resultList;
+        }
+
     }
 
     public void deleteCategory(Category category) throws Exception {
