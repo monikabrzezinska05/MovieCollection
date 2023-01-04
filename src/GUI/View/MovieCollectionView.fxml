@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MovieCollectionController">
    <children>
       <TreeTableView layoutX="469.0" layoutY="89.0" prefHeight="580.0" prefWidth="752.0">
         <columns>
@@ -26,11 +26,11 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="1108.0" layoutY="677.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="1169.0" layoutY="677.0" mnemonicParsing="false" text="Delete" />
-      <Button layoutX="469.0" layoutY="677.0" mnemonicParsing="false" text="Rate" />
-      <Button layoutX="303.0" layoutY="677.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="355.0" layoutY="677.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="AddMovie" layoutX="1108.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleAddMovie" text="Add" />
+      <Button fx:id="DeleteMovie" layoutX="1169.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleDeleteMovie" text="Delete" />
+      <Button fx:id="RateMovie" layoutX="469.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleRateMovie" text="Rate" />
+      <Button fx:id="AddCategory" layoutX="303.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleAddCategory" text="Add" />
+      <Button fx:id="DeleteCategory" layoutX="355.0" layoutY="677.0" mnemonicParsing="false" onAction="#HandleDeleteCategory" text="Delete" />
       <TextField layoutX="1061.0" layoutY="25.0" />
    </children>
 </AnchorPane>
