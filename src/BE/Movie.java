@@ -7,12 +7,12 @@ public class Movie {
     private int id;
     private String title;
     private String filepath;
-    private Date lastWatched;
+    private java.sql.Date lastWatched;
     private int personalRating;
     private int IMDBRating;
 
 
-    public Movie(int id, String title, String filepath, Date lastWatched, int personalRating, int IMDBRating) {
+    public Movie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) {
         setId(id);
         setTitle(title);
         setFilepath(filepath);
@@ -45,11 +45,11 @@ public class Movie {
         this.filepath = filepath;
     }
 
-    public Date getLastWatched() {
+    public java.sql.Date getLastWatched() {
         return lastWatched;
     }
 
-    public void setLastWatched(Date lastWatched) {
+    public void setLastWatched(java.sql.Date lastWatched) {
         this.lastWatched = lastWatched;
     }
 
