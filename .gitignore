@@ -31,3 +31,4 @@ bin/
 .idea/codeStyles/codeStyleConfig.xml
 !/resources/config.properties
 /resources/config.properties
+.idea/workspace.xml
