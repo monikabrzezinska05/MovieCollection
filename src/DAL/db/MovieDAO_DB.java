@@ -1,14 +1,12 @@
 package DAL.db;
 
-import BE.Category;
 import BE.Movie;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class MovieDAOV_DB {
+public class MovieDAO_DB {
     private DatabaseConnector databaseConnector;
 
     public void MovieDAO_DB() {
