@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class DatabaseConnectionInfo {
 
-    private Properties properties;
+    private final Properties properties;
 
     public DatabaseConnectionInfo(String path) {
         properties = new Properties();
