@@ -11,13 +11,18 @@ public class DatabaseConnector {
     private SQLServerDataSource dataSource;
 
     public DatabaseConnector(){
+
+        DatabaseConnectionInfo connectionInfo = new DatabaseConnectionInfo(
+                Thread.currentThread().getContextClassLoader().getResource("").getPath() + "config.properties"
+        );
+
         dataSource = new SQLServerDataSource();
-        dataSource.setServerName("10.176.111.31");
-        dataSource.setDatabaseName("MovieCollection");
-        dataSource.setUser("CSe22A_4");
-        dataSource.setPassword("CSe22A_4");
+        dataSource.setServerName(connectionInfo.getProperty("DB_HOST"));
+        dataSource.setDatabaseName(connectionInfo.getProperty("DB_NAME"));
+        dataSource.setUser(connectionInfo.getProperty("DB_USER"));
+        dataSource.setPassword(connectionInfo.getProperty("DB_PASSWORD"));
         dataSource.setTrustServerCertificate(true);
-        dataSource.setPortNumber(1433);
+        dataSource.setPortNumber(Integer.parseInt(connectionInfo.getProperty("DB_PORT")));
     }
 
     public Connection getConnection() throws SQLServerException {
