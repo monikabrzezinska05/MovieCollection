@@ -3,6 +3,9 @@ package GUI.Controller;
 import BE.Category;
 import BE.Movie;
 import GUI.Model.CategoryModel;
+import GUI.Model.MovieModel;
+import GUI.Model.MovieTableModel;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,17 +15,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.sql.Date;
+import java.util.*;
 
 public class MovieCollectionController implements Initializable {
 
+    private CategoryModel categoryModel;
+    private MovieModel movieModel;
 
-    CategoryModel categoryModel;
+    private ObservableList<Category> categoryObservableList;
 
-    ObservableList<Category> categoryObservableList;
+    private ObservableList<MovieTableModel> movieObservableList;
 
     public Button addCategory;
     public Button deleteCategory;
@@ -32,28 +35,30 @@ public class MovieCollectionController implements Initializable {
     public Button searchButton;
     public ListView<Category> allCategories;
 
+    @FXML TableView<MovieTableModel> movieTable;
     @FXML
-    private TableColumn<Movie, String> movieTitle;
+    private TableColumn<MovieTableModel, String> movieTitle;
     @FXML
-    private TableColumn<Movie, Integer> personalRating;
+    private TableColumn<MovieTableModel, Integer> personalRating;
     @FXML
-    private TableColumn<Movie, Integer> imdbRating;
+    private TableColumn<MovieTableModel, Integer> imdbRating;
     @FXML
-    private TableColumn<Movie, String> categories;
+    private TableColumn<MovieTableModel, String> categories;
     @FXML
-    private TableColumn<Movie, Integer> lastTimeWatched;
+    private TableColumn<MovieTableModel, java.sql.Date> lastTimeWatched;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         categoryModel = new CategoryModel();
+        movieModel = new MovieModel();
 
-        movieTitle.setCellValueFactory(new PropertyValueFactory<Movie, String>("movieTitle"));
-        personalRating.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("personalRating"));
-        imdbRating.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("imdbRating"));
-        categories.setCellValueFactory(new PropertyValueFactory<Movie, String>("categories"));
-        lastTimeWatched.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("lastTimeWatched"));
+        movieTitle.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
+        personalRating.setCellValueFactory(new PropertyValueFactory<>("personalRating"));
+        imdbRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
+        categories.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().toString())); // TODO: Fix this pls
+        lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
         try {
             categoryObservableList = FXCollections.observableArrayList(categoryModel.getCategoryManager().getCategories());
@@ -63,6 +68,32 @@ public class MovieCollectionController implements Initializable {
             showWarningDialog("Warning!", "Could not get categories!");
         }
 
+        try {
+            personalRating.setCellValueFactory(new PropertyValueFactory<>("personalRating"));
+            imdbRating.setCellValueFactory(new PropertyValueFactory<>("IMDBRating"));
+            // TODO: Categories
+            movieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+            lastTimeWatched.setCellValueFactory(new PropertyValueFactory<MovieTableModel, Date>("lastWatched"));
+
+            List<Movie> movies = movieModel.getAllMovies();
+
+            movies.forEach(movie -> {
+                movieObservableList = FXCollections.observableArrayList();
+                movieObservableList.add(new MovieTableModel(
+                        movie.getId(),
+                        movie.getTitle(),
+                        movie.getFilepath(),
+                        movie.getLastWatched(),
+                        movie.getPersonalRating(),
+                        movie.getIMDBRating()
+                ));
+            });
+
+            movieTable.setItems(movieObservableList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showWarningDialog("Warning!", "Could not get movies!");
+        }
     }
 
     public void handleAddCategory() {

@@ -9,7 +9,7 @@ import java.util.List;
 public class MovieDAO_DB {
     private DatabaseConnector databaseConnector;
 
-    public void MovieDAO_DB() {
+    public MovieDAO_DB() {
         databaseConnector = new DatabaseConnector();
     }
 

@@ -23,7 +23,7 @@
       <Button fx:id="addCategory" layoutX="303.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleAddCategory" text="Add" />
       <Button fx:id="deleteCategory" layoutX="355.0" layoutY="677.0" mnemonicParsing="false" onAction="#handleDeleteCategory" text="Delete" />
       <TextField layoutX="1061.0" layoutY="25.0" />
-      <TableView layoutX="465.0" layoutY="117.0" prefHeight="549.0" prefWidth="759.0">
+      <TableView fx:id="movieTable" layoutX="465.0" layoutY="117.0" prefHeight="549.0" prefWidth="759.0">
         <columns>
           <TableColumn fx:id="personalRating" prefWidth="90.50003051757812" text="Personal Rating" />
           <TableColumn fx:id="imdbRating" prefWidth="73.863037109375" text="IMDB Rating" />
