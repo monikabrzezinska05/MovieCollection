@@ -46,3 +46,4 @@ bin/
 /resources/config.properties
 !/.idea/workspace.xml
 /.idea/workspace.xml
+.idea/workspace.xml
