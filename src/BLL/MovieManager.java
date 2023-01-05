@@ -23,6 +23,4 @@ public class MovieManager {
     public void deleteMovie(Movie movie) throws Exception{
         movieDAO.deleteMovie(movie);
     }
-
-
 }

@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cfbc0d19-93a6-4464-abf4-dfbafd76c61d" name="Changes" comment="Category">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BLL/MovieManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLL/MovieManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MovieCollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MovieCollectionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Model/MovieModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/MovieModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -10,20 +10,33 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Date;
 import java.util.*;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class MovieCollectionController implements Initializable {
 
     private CategoryModel categoryModel;
     private MovieModel movieModel;
+public class MovieCollectionController extends BaseController implements Initializable {
 
     private ObservableList<Category> categoryObservableList;
+    CategoryModel categoryModel;
+    MovieModel movieModel;
 
     private ObservableList<MovieTableModel> movieObservableList;
 
@@ -35,7 +48,8 @@ public class MovieCollectionController implements Initializable {
     public Button searchButton;
     public ListView<Category> allCategories;
 
-    @FXML TableView<MovieTableModel> movieTable;
+    @FXML
+    TableView<MovieTableModel> movieTable;
     @FXML
     private TableColumn<MovieTableModel, String> movieTitle;
     @FXML
@@ -146,13 +160,22 @@ public class MovieCollectionController implements Initializable {
     public void handleRateMovie(ActionEvent actionEvent) {
     }
 
-    public void handleAddMovie(ActionEvent actionEvent) {
+    public void handleAddMovie(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/NewMovieView.fxml"));
+        Parent root = loader.load();
+
+        NewMovieController controller = loader.getController();
+        controller.setMoviemodel(movieModel);
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("New Movie");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        stage.show();
     }
 
     public void handleDeleteMovie(ActionEvent actionEvent) {
-    }
-
-    public void handleSearchButton(ActionEvent actionEvent) {
     }
 
     private void showWarningDialog(String title, String contentText) {

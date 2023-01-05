@@ -25,5 +25,8 @@ public class MovieModel {
     }
 
 
+    public List<Movie> getMovies() {
+        return getMovies();
+    }
 
 }
