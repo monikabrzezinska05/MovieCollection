@@ -20,6 +20,7 @@ public class MovieCollectionController implements Initializable {
     public Button addMovie;
     public Button deleteMovie;
     public ListView allCategories;
+    public Button searchButton;
 
     @FXML
     private TableColumn<Movie, String> movieTitle;
@@ -56,5 +57,8 @@ public class MovieCollectionController implements Initializable {
     }
 
     public void handleDeleteMovie(ActionEvent actionEvent) {
+    }
+
+    public void handleSearchButton(ActionEvent actionEvent) {
     }
 }

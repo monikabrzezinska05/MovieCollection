@@ -32,5 +32,6 @@
             <TableColumn fx:id="lastTimeWatched" prefWidth="160.2655029296875" text="Last Time Watched" />
         </columns>
       </TableView>
+      <Button fx:id="searchButton" layoutX="997.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
    </children>
 </AnchorPane>
