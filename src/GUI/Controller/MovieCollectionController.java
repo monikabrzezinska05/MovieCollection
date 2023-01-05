@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 
 public class MovieCollectionController implements Initializable {
 
+
     CategoryModel categoryModel;
 
     ObservableList<Category> categoryObservableList;
@@ -28,6 +29,7 @@ public class MovieCollectionController implements Initializable {
     public Button rateMovie;
     public Button addMovie;
     public Button deleteMovie;
+    public Button searchButton;
     public ListView allCategories;
 
     @FXML
@@ -96,6 +98,9 @@ public class MovieCollectionController implements Initializable {
     public void handleDeleteMovie(ActionEvent actionEvent) {
     }
 
+    public void handleSearchButton(ActionEvent actionEvent) {
+    }
+
     private void showWarningDialog(String title, String contentText) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -104,4 +109,5 @@ public class MovieCollectionController implements Initializable {
 
         alert.showAndWait();
     }
+
 }
