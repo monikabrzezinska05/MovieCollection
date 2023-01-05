@@ -6,13 +6,17 @@ import BLL.CategoryManager;
 public class CategoryModel {
     CategoryManager categoryManager;
 
-    public CategoryModel() throws Exception {
+    public CategoryModel() {
         categoryManager = new CategoryManager();
     }
 
-    public void createCategory(String name) throws Exception {
+    public Category createCategory(String name) throws Exception {
         Category category = categoryManager.createCategory(name);
+        return category;
+    }
 
+    public void deleteCategory(Category category) throws Exception {
+        categoryManager.deleteCategory(category);
     }
 
 }
