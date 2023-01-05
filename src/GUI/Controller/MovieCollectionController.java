@@ -22,10 +22,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.*;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -186,6 +191,17 @@ public class MovieCollectionController extends BaseController implements Initial
         alert.setContentText(contentText);
 
         alert.showAndWait();
+    }
+
+    private File getMovieFile() {
+        JFileChooser jfc = new JFileChooser();
+        return jfc.getSelectedFile();
+    }
+
+    private void mouseClicked(MouseEvent event) throws IOException {
+        if(event.getClickCount() == 2 && event.getButton() == MouseEvent.BUTTON1) {
+            Desktop.getDesktop().open(getMovieFile());
+        }
     }
 
 }
