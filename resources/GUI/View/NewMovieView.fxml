@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.View.NewMovieView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.NewMovieController">
    <children>
       <Label layoutX="39.0" layoutY="61.0" prefHeight="23.0" prefWidth="35.0" text="File:">
          <font>
@@ -30,12 +30,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="488.0" layoutY="61.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Choose..." />
-      <Button layoutX="514.0" layoutY="347.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="61.0" text="Cancel" />
-      <Button layoutX="438.0" layoutY="347.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="54.0" text="Save" />
-      <TextField layoutX="191.0" layoutY="61.0" prefHeight="26.0" prefWidth="275.0" />
-      <TextField layoutX="191.0" layoutY="196.0" prefHeight="26.0" prefWidth="275.0" />
-      <TextField layoutX="191.0" layoutY="268.0" />
+      <Button fx:id="chooseFileButton" layoutX="488.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleChooseFileButton" prefHeight="26.0" prefWidth="87.0" text="Choose..." />
+      <Button fx:id="cancelMovieButton" layoutX="514.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleCancelMovie" prefHeight="26.0" prefWidth="61.0" text="Cancel" />
+      <Button fx:id="saveMovieButton" layoutX="438.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleSaveMovie" prefHeight="26.0" prefWidth="54.0" text="Save" />
+      <TextField fx:id="fileTextField" layoutX="191.0" layoutY="61.0" prefHeight="26.0" prefWidth="275.0" />
+      <TextField fx:id="movieTitleTextField" layoutX="191.0" layoutY="196.0" prefHeight="26.0" prefWidth="275.0" />
+      <TextField fx:id="imdbRatingTextField" layoutX="191.0" layoutY="268.0" />
       <ComboBox layoutX="191.0" layoutY="127.0" prefHeight="26.0" prefWidth="198.0" />
    </children>
 </AnchorPane>

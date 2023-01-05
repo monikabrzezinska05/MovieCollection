@@ -3,24 +3,34 @@ package GUI.Controller;
 import BE.Category;
 import BE.Movie;
 import GUI.Model.CategoryModel;
+import GUI.Model.MovieModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import javax.imageio.IIOException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class MovieCollectionController implements Initializable {
+public class MovieCollectionController extends BaseController implements Initializable {
 
 
     CategoryModel categoryModel;
+    MovieModel movieModel;
 
     ObservableList<Category> categoryObservableList;
 
@@ -48,6 +58,7 @@ public class MovieCollectionController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         categoryModel = new CategoryModel();
+        movieModel = new MovieModel();
 
         movieTitle.setCellValueFactory(new PropertyValueFactory<Movie, String>("movieTitle"));
         personalRating.setCellValueFactory(new PropertyValueFactory<Movie, Integer>("personalRating"));
@@ -63,6 +74,10 @@ public class MovieCollectionController implements Initializable {
             showWarningDialog("Warning!", "Could not get categories!");
         }
 
+    }
+
+    void initData (Movie movie) {
+        movieTitle.setText(movie.getTitle());
     }
 
     public void handleAddCategory() {
@@ -115,7 +130,19 @@ public class MovieCollectionController implements Initializable {
     public void handleRateMovie(ActionEvent actionEvent) {
     }
 
-    public void handleAddMovie(ActionEvent actionEvent) {
+    public void handleAddMovie(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/NewMovieView.fxml"));
+        Parent root = loader.load();
+
+        NewMovieController controller = loader.getController();
+        controller.setMoviemodel(movieModel);
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("New Movie");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        stage.show();
     }
 
     public void handleDeleteMovie(ActionEvent actionEvent) {

@@ -6,7 +6,7 @@ import BLL.MovieManager;
 public class MovieModel {
    MovieManager movieManager;
 
-    public MovieModel() throws Exception {
+    public MovieModel() {
         movieManager = new MovieManager();
     }
 
@@ -17,8 +17,6 @@ public class MovieModel {
     public void deleteMovie(Movie deletedMovie) throws Exception {
         movieManager.deleteMovie(deletedMovie);
     }
-
-
 
 
 }
