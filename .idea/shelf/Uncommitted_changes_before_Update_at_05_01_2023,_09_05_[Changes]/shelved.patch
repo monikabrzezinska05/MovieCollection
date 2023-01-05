@@ -1,0 +1,103 @@
+Index: src/BLL/MovieManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package BLL;\n\nimport BE.Category;\nimport BE.Movie;\nimport DAL.db.MovieDAO_DB;\n\nimport java.util.List;\n\npublic class MovieManager {\n\n    private MovieDAO_DB movieDAO;\n\n    public MovieManager() { movieDAO = new MovieDAO_DB(); }\n\n    public List<Movie> getMovies() throws Exception {\n        return movieDAO.getAllMovies();\n    }\n\n    public Movie createMovie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception{\n        return movieDAO.createMovie(id, title, filepath, lastWatched, personalRating, IMDBRating);\n    }\n\n    public void deleteMovie(Movie movie) throws Exception{\n        movieDAO.deleteMovie(movie);\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/BLL/MovieManager.java b/src/BLL/MovieManager.java
+--- a/src/BLL/MovieManager.java	(revision 0a41522fedadaa9478268638efc81e1a6639d4b5)
++++ b/src/BLL/MovieManager.java	(date 1672904237841)
+@@ -23,6 +23,4 @@
+     public void deleteMovie(Movie movie) throws Exception{
+         movieDAO.deleteMovie(movie);
+     }
+-
+-
+ }
+Index: src/GUI/Model/MovieModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package GUI.Model;\n\nimport BE.Movie;\nimport BLL.MovieManager;\n\npublic class MovieModel {\n   MovieManager movieManager;\n\n    public MovieModel() throws Exception {\n        movieManager = new MovieManager();\n    }\n\n    public void createMovie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception {\n        movieManager.createMovie(id, title, filepath, lastWatched, personalRating, IMDBRating);\n    }\n\n    public void deleteMovie(Movie deletedMovie) throws Exception {\n        movieManager.deleteMovie(deletedMovie);\n    }\n\n\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GUI/Model/MovieModel.java b/src/GUI/Model/MovieModel.java
+--- a/src/GUI/Model/MovieModel.java	(revision 0a41522fedadaa9478268638efc81e1a6639d4b5)
++++ b/src/GUI/Model/MovieModel.java	(date 1672904748371)
+@@ -3,6 +3,8 @@
+ import BE.Movie;
+ import BLL.MovieManager;
+ 
++import java.util.List;
++
+ public class MovieModel {
+    MovieManager movieManager;
+ 
+@@ -18,7 +20,9 @@
+         movieManager.deleteMovie(deletedMovie);
+     }
+ 
+-
++    public List<Movie> getMovies() {
++        return getMovies();
++    }
+ 
+ 
+ }
+Index: src/GUI/Controller/MovieCollectionController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package GUI.Controller;\n\nimport BE.Movie;\nimport javafx.event.ActionEvent;\nimport javafx.fxml.FXML;\nimport javafx.fxml.Initializable;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.ListView;\nimport javafx.scene.control.TableColumn;\nimport javafx.scene.control.cell.PropertyValueFactory;\n\nimport java.net.URL;\nimport java.util.ResourceBundle;\n\npublic class MovieCollectionController implements Initializable {\n\n    public Button addCategory;\n    public Button deleteCategory;\n    public Button rateMovie;\n    public Button addMovie;\n    public Button deleteMovie;\n    public ListView allCategories;\n\n    @FXML\n    private TableColumn<Movie, String> movieTitle;\n    @FXML\n    private TableColumn<Movie, Integer> personalRating;\n    @FXML\n    private TableColumn<Movie, Integer> imdbRating;\n    @FXML\n    private TableColumn<Movie, String> categories;\n    @FXML\n    private TableColumn<Movie, Integer> lastTimeWatched;\n\n\n    @Override\n    public void initialize(URL location, ResourceBundle resources) {\n        movieTitle.setCellValueFactory(new PropertyValueFactory<Movie, String>(\"movieTitle\"));\n        personalRating.setCellValueFactory(new PropertyValueFactory<Movie, Integer>(\"personalRating\"));\n        imdbRating.setCellValueFactory(new PropertyValueFactory<Movie, Integer>(\"imdbRating\"));\n        categories.setCellValueFactory(new PropertyValueFactory<Movie, String>(\"categories\"));\n        lastTimeWatched.setCellValueFactory(new PropertyValueFactory<Movie, Integer>(\"lastTimeWatched\"));\n\n    }\n\n    public void handleAddCategory(ActionEvent actionEvent) {\n    }\n\n    public void handleDeleteCategory(ActionEvent actionEvent) {\n    }\n\n    public void handleRateMovie(ActionEvent actionEvent) {\n    }\n\n    public void handleAddMovie(ActionEvent actionEvent) {\n    }\n\n    public void handleDeleteMovie(ActionEvent actionEvent) {\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GUI/Controller/MovieCollectionController.java b/src/GUI/Controller/MovieCollectionController.java
+--- a/src/GUI/Controller/MovieCollectionController.java	(revision 0a41522fedadaa9478268638efc81e1a6639d4b5)
++++ b/src/GUI/Controller/MovieCollectionController.java	(date 1672905723390)
+@@ -9,6 +9,9 @@
+ import javafx.scene.control.TableColumn;
+ import javafx.scene.control.cell.PropertyValueFactory;
+ 
++import java.awt.*;
++import java.io.File;
++import java.io.IOException;
+ import java.net.URL;
+ import java.util.ResourceBundle;
+ 
+@@ -57,4 +60,14 @@
+ 
+     public void handleDeleteMovie(ActionEvent actionEvent) {
+     }
++
++    public void handleOpenMovie() {
++        if(doubleclick) {
++            filePath = ;
++        }
++        selectedFile =
++
++        Desktop.getDesktop().open(selectedFile);
++    }
++
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"cfbc0d19-93a6-4464-abf4-dfbafd76c61d\" name=\"Changes\" comment=\"Category\">\n      <change beforePath=\"$PROJECT_DIR$/.gitignore\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/BLL/MovieManager.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/BLL/MovieManager.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/GUI/Model/MovieModel.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/GUI/Model/MovieModel.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2Jr3jCFlEWpLwolDbtTMm3imyWt\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;\n  }\n}</component>\n  <component name=\"RunManager\">\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"Main\" />\n      <module name=\"MovieCollection\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.Main\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"cfbc0d19-93a6-4464-abf4-dfbafd76c61d\" name=\"Changes\" comment=\"\" />\n      <created>1672822507756</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1672822507756</updated>\n      <workItem from=\"1672822508980\" duration=\"2905000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/MovieCollection$Main.ic\" NAME=\"Main Coverage Results\" MODIFIED=\"1672818515415\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 0a41522fedadaa9478268638efc81e1a6639d4b5)
++++ b/.idea/workspace.xml	(date 1672905249169)
+@@ -5,8 +5,9 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="cfbc0d19-93a6-4464-abf4-dfbafd76c61d" name="Changes" comment="Category">
+-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/BLL/MovieManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLL/MovieManager.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MovieCollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MovieCollectionController.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/GUI/Model/MovieModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/MovieModel.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />

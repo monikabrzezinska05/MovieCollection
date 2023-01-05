@@ -3,6 +3,8 @@ package GUI.Model;
 import BE.Movie;
 import BLL.MovieManager;
 
+import java.util.List;
+
 public class MovieModel {
    MovieManager movieManager;
 
@@ -18,7 +20,9 @@ public class MovieModel {
         movieManager.deleteMovie(deletedMovie);
     }
 
-
+    public List<Movie> getMovies() {
+        return getMovies();
+    }
 
 
 }
