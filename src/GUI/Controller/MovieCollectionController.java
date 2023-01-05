@@ -14,33 +14,33 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.imageio.IIOException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MovieCollectionController extends BaseController implements Initializable {
-
 
     CategoryModel categoryModel;
     MovieModel movieModel;
 
     ObservableList<Category> categoryObservableList;
 
+    public File file;
+
     public Button addCategory;
     public Button deleteCategory;
     public Button rateMovie;
     public Button addMovie;
     public Button deleteMovie;
-    public Button searchButton;
-    public ListView<Category> allCategories;
+    public ListView allCategories;
 
     @FXML
     private TableColumn<Movie, String> movieTitle;
@@ -101,30 +101,7 @@ public class MovieCollectionController extends BaseController implements Initial
         });
     }
 
-    public void handleDeleteCategory() {
-        var selectedCategory = allCategories.getSelectionModel().getSelectedItem();
-        if(selectedCategory == null) return;
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete category");
-        alert.setGraphic(null);
-        alert.setHeaderText(null);
-        alert.setContentText("Do you want to delete the category: " + selectedCategory.getName());
-        ButtonType okButton = new ButtonType("Delete", ButtonBar.ButtonData.YES);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(okButton, cancelButton);
-
-        alert.showAndWait().ifPresent(type -> {
-            if (type == okButton) {
-                try {
-                    categoryModel.deleteCategory(selectedCategory);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    showWarningDialog("Warning!", "Could not delete category: " + selectedCategory.getName());
-                }
-                categoryObservableList.remove(selectedCategory);
-            }
-        });
+    public void handleDeleteCategory(ActionEvent actionEvent) {
     }
 
     public void handleRateMovie(ActionEvent actionEvent) {
@@ -146,9 +123,6 @@ public class MovieCollectionController extends BaseController implements Initial
     }
 
     public void handleDeleteMovie(ActionEvent actionEvent) {
-    }
-
-    public void handleSearchButton(ActionEvent actionEvent) {
     }
 
     private void showWarningDialog(String title, String contentText) {
