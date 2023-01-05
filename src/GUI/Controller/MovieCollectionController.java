@@ -22,16 +22,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class MovieCollectionController implements Initializable {
-
-    private CategoryModel categoryModel;
-    private MovieModel movieModel;
 public class MovieCollectionController extends BaseController implements Initializable {
 
     private ObservableList<Category> categoryObservableList;
@@ -157,7 +154,7 @@ public class MovieCollectionController extends BaseController implements Initial
         });
     }
 
-    public void handleRateMovie(ActionEvent actionEvent) {
+    public void handleRateMovie() {
     }
 
     public void handleAddMovie(ActionEvent actionEvent) throws IOException {
@@ -175,7 +172,11 @@ public class MovieCollectionController extends BaseController implements Initial
         stage.show();
     }
 
-    public void handleDeleteMovie(ActionEvent actionEvent) {
+    public void handleDeleteMovie() {
+    }
+
+    public void handleSearchButton() {
+
     }
 
     private void showWarningDialog(String title, String contentText) {
