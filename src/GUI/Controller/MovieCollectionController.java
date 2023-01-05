@@ -30,7 +30,7 @@ public class MovieCollectionController implements Initializable {
     public Button addMovie;
     public Button deleteMovie;
     public Button searchButton;
-    public ListView allCategories;
+    public ListView<Category> allCategories;
 
     @FXML
     private TableColumn<Movie, String> movieTitle;
@@ -86,7 +86,30 @@ public class MovieCollectionController implements Initializable {
         });
     }
 
-    public void handleDeleteCategory(ActionEvent actionEvent) {
+    public void handleDeleteCategory() {
+        var selectedCategory = allCategories.getSelectionModel().getSelectedItem();
+        if(selectedCategory == null) return;
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete category");
+        alert.setGraphic(null);
+        alert.setHeaderText(null);
+        alert.setContentText("Do you want to delete the category: " + selectedCategory.getName());
+        ButtonType okButton = new ButtonType("Delete", ButtonBar.ButtonData.YES);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(okButton, cancelButton);
+
+        alert.showAndWait().ifPresent(type -> {
+            if (type == okButton) {
+                try {
+                    categoryModel.deleteCategory(selectedCategory);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showWarningDialog("Warning!", "Could not delete category: " + selectedCategory.getName());
+                }
+                categoryObservableList.remove(selectedCategory);
+            }
+        });
     }
 
     public void handleRateMovie(ActionEvent actionEvent) {
