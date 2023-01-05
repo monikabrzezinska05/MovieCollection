@@ -24,9 +24,4 @@ public class MovieModel {
         return movieManager.getMovies();
     }
 
-
-    public List<Movie> getMovies() {
-        return getMovies();
-    }
-
 }
