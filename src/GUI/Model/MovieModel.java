@@ -2,18 +2,38 @@ package GUI.Model;
 
 import BE.Movie;
 import BLL.MovieManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
 public class MovieModel {
-   MovieManager movieManager;
+   private MovieManager movieManager;
 
-    public MovieModel() {
+    private ObservableList<MovieTableModel> moviesObservableList;
+
+    public MovieModel() throws Exception {
         movieManager = new MovieManager();
+        var movies = getAllMovies();
+
+        moviesObservableList = FXCollections.observableArrayList();
+
+        movies.forEach(movie -> moviesObservableList.add(new MovieTableModel(
+            movie.getId(),
+            movie.getTitle(),
+            movie.getFilepath(),
+            movie.getLastWatched(),
+            movie.getPersonalRating(),
+            movie.getIMDBRating()
+        )));
     }
 
-    public void createMovie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception {
-        movieManager.createMovie(id, title, filepath, lastWatched, personalRating, IMDBRating);
+    public ObservableList<MovieTableModel> getMoviesObservableList() {
+        return moviesObservableList;
+    }
+
+    public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception {
+        return movieManager.createMovie(title, filepath, lastWatched, personalRating, IMDBRating);
     }
 
     public void deleteMovie(Movie deletedMovie) throws Exception {

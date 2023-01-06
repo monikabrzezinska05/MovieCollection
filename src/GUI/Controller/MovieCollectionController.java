@@ -29,18 +29,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
-import java.util.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MovieCollectionController extends BaseController implements Initializable {
 
-    private ObservableList<Category> categoryObservableList;
     CategoryModel categoryModel;
     MovieModel movieModel;
-
-    private ObservableList<MovieTableModel> movieObservableList;
 
     public Button addCategory;
     public Button deleteCategory;
@@ -67,8 +63,24 @@ public class MovieCollectionController extends BaseController implements Initial
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        categoryModel = new CategoryModel();
-        movieModel = new MovieModel();
+
+    }
+
+    @Override
+    public void setup() {
+        try {
+            categoryModel = new CategoryModel();
+        } catch (Exception e) {
+            System.out.println("Could not create CategoryModel");
+            e.printStackTrace();
+        }
+
+        try {
+            movieModel = new MovieModel();
+        } catch (Exception e) {
+            System.out.println("Could not create MovieModel");
+            e.printStackTrace();
+        }
 
         movieTitle.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
         personalRating.setCellValueFactory(new PropertyValueFactory<>("personalRating"));
@@ -77,8 +89,7 @@ public class MovieCollectionController extends BaseController implements Initial
         lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
         try {
-            categoryObservableList = FXCollections.observableArrayList(categoryModel.getCategoryManager().getCategories());
-            allCategories.setItems(categoryObservableList);
+            allCategories.setItems(categoryModel.getCategoryObservableList());
         } catch (Exception e) {
             e.printStackTrace();
             showWarningDialog("Warning!", "Could not get categories!");
@@ -93,24 +104,15 @@ public class MovieCollectionController extends BaseController implements Initial
 
             List<Movie> movies = movieModel.getAllMovies();
 
-            movies.forEach(movie -> {
-                movieObservableList = FXCollections.observableArrayList();
-                movieObservableList.add(new MovieTableModel(
-                        movie.getId(),
-                        movie.getTitle(),
-                        movie.getFilepath(),
-                        movie.getLastWatched(),
-                        movie.getPersonalRating(),
-                        movie.getIMDBRating()
-                ));
-            });
 
-            movieTable.setItems(movieObservableList);
+
+            movieTable.setItems(movieModel.getMoviesObservableList());
         } catch (Exception e) {
             e.printStackTrace();
             showWarningDialog("Warning!", "Could not get movies!");
         }
     }
+
 
     public void handleAddCategory() {
         Dialog<String> dialog = new TextInputDialog();
@@ -124,7 +126,7 @@ public class MovieCollectionController extends BaseController implements Initial
         result.ifPresent(s -> {
             try {
                 var category = categoryModel.createCategory(s);
-                categoryObservableList.add(category);
+                categoryModel.getCategoryObservableList().add(category);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Could not create category!");
@@ -154,7 +156,7 @@ public class MovieCollectionController extends BaseController implements Initial
                     e.printStackTrace();
                     showWarningDialog("Warning!", "Could not delete category: " + selectedCategory.getName());
                 }
-                categoryObservableList.remove(selectedCategory);
+                categoryModel.getCategoryObservableList().remove(selectedCategory);
             }
         });
     }
@@ -169,6 +171,9 @@ public class MovieCollectionController extends BaseController implements Initial
 
         NewMovieController controller = loader.getController();
         controller.setMoviemodel(movieModel);
+        controller.setCategoryModel(categoryModel);
+        controller.setup();
+
 
         stage.setScene(new Scene(root));
         stage.setTitle("New Movie");
@@ -203,5 +208,4 @@ public class MovieCollectionController extends BaseController implements Initial
             Desktop.getDesktop().open(getMovieFile());
         }
     }
-
 }

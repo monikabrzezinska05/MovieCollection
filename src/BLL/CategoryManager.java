@@ -9,7 +9,9 @@ public class CategoryManager {
 
     private CategoryDAO_DB categoryDAO;
 
-    public CategoryManager() { categoryDAO = new CategoryDAO_DB(); }
+    public CategoryManager() {
+        categoryDAO = new CategoryDAO_DB();
+    }
 
     public List<Category> getCategories() throws Exception{
         return categoryDAO.getCategories();

@@ -38,30 +38,29 @@ public class MovieDAO_DB {
         return allMovies;
     }
 
-    public Movie createMovie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception{
-        String sql = "INSERT INTO Movies (Id, Title, FilePath, LastWatched, PersonalRating, IMDBRating) VALUES (?,?,?,?,?,?);";
+    public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception{
+        String sql = "INSERT INTO Movies (Title, FilePath, LastWatched, PersonalRating, IMDBRating) VALUES (?,?,?,?,?);";
 
         try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 
             //Bind parameters.
-            statement.setInt(1, id);
-            statement.setString(2, title);
-            statement.setString(3, filepath);
-            statement.setDate(4, lastWatched);
-            statement.setInt(5, personalRating);
-            statement.setInt(6, IMDBRating);
+            statement.setString(1, title);
+            statement.setString(2, filepath);
+            statement.setDate(3, lastWatched);
+            statement.setInt(4, personalRating);
+            statement.setInt(5, IMDBRating);
 
             //Run the specified SQL statement.
             statement.executeUpdate();
 
             //Get the generated ID from the DB
             ResultSet rs = statement.getGeneratedKeys();
-            int Id = 0;
+            int id = 0;
 
             if(rs.next()) {
-                Id = rs.getInt(1);
+                id = rs.getInt(1);
             }
 
             //Create movie object and send up the layers.

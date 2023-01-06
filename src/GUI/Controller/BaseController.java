@@ -24,4 +24,6 @@ public abstract class BaseController {
         this.categoryModel = categoryModel;
     }
 
+    public abstract void setup();
+
 }

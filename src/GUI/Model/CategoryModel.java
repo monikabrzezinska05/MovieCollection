@@ -2,12 +2,22 @@ package GUI.Model;
 
 import BE.Category;
 import BLL.CategoryManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class CategoryModel {
-    CategoryManager categoryManager;
 
-    public CategoryModel() {
+    private ObservableList<Category> categoryObservableList;
+
+    private CategoryManager categoryManager;
+
+    public CategoryModel() throws Exception {
         categoryManager = new CategoryManager();
+        categoryObservableList = FXCollections.observableArrayList(categoryManager.getCategories());
+    }
+
+    public ObservableList<Category> getCategoryObservableList() {
+        return categoryObservableList;
     }
 
     public Category createCategory(String name) throws Exception {
