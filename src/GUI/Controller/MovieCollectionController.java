@@ -62,8 +62,25 @@ public class MovieCollectionController extends BaseController implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        movieTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                var selectedMovie = movieTable.getSelectionModel().getSelectedItem();
+                File movieToOpen = new File(selectedMovie.getFilepath());
+                try {
+                    Desktop.getDesktop().open(movieToOpen);
+                } catch (IOException e) {
+                    showWarningDialog("Error", "Couldn't open the selected Movie");
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-
+    private void mouseClicked(MouseEvent event) throws IOException {
+        if(event.getClickCount() == 2 && event.getButton() == MouseEvent.BUTTON1) {
+            System.out.println("Double Click");
+            //Desktop.getDesktop().open(getMovieFile());
+        }
     }
 
     @Override
@@ -203,9 +220,5 @@ public class MovieCollectionController extends BaseController implements Initial
         return jfc.getSelectedFile();
     }
 
-    private void mouseClicked(MouseEvent event) throws IOException {
-        if(event.getClickCount() == 2 && event.getButton() == MouseEvent.BUTTON1) {
-            Desktop.getDesktop().open(getMovieFile());
-        }
-    }
+
 }
