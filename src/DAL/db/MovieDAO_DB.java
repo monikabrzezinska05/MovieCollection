@@ -76,7 +76,7 @@ public class MovieDAO_DB {
     public void deleteMovie(Movie movie) throws Exception {
 
         try (Connection connection = databaseConnector.getConnection()) {
-            String sql = "DELETE FROM Categories WHERE Id = ?";
+            String sql = "DELETE FROM Movies WHERE Id = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
