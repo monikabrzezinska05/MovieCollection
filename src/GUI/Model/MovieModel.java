@@ -38,6 +38,7 @@ public class MovieModel {
 
     public void deleteMovie(Movie deletedMovie) throws Exception {
         movieManager.deleteMovie(deletedMovie);
+        moviesObservableList.remove(deletedMovie);
     }
 
     public List<Movie> getAllMovies() throws Exception {

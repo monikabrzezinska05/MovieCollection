@@ -196,6 +196,28 @@ public class MovieCollectionController extends BaseController implements Initial
     }
 
     public void handleDeleteMovie() {
+        var selectedMovie = movieTable.getSelectionModel().getSelectedItem();
+        if(selectedMovie == null) return;
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete movie");
+        alert.setGraphic(null);
+        alert.setHeaderText(null);
+        alert.setContentText("Do you want to delete the movie: " + selectedMovie.getTitle());
+        ButtonType okButton = new ButtonType("Delete", ButtonBar.ButtonData.YES);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(okButton, cancelButton);
+
+        alert.showAndWait().ifPresent(type -> {
+            if (type == okButton) {
+                try {
+                    movieModel.deleteMovie(selectedMovie);
+                } catch (Exception e) {
+                    System.out.println("Could not delete moveie!");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void handleSearchButton() {
