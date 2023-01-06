@@ -26,4 +26,8 @@ public class MovieManager {
         movieDAO.deleteMovie(movie);
     }
 
+    public void updateRating(Movie updatedRating) throws Exception{
+        movieDAO.updateRating(updatedRating);
+    }
+
 }

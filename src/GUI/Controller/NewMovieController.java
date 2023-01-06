@@ -4,12 +4,10 @@ import BE.Category;
 import BE.Movie;
 import GUI.Model.CategoryModel;
 import GUI.Model.MovieModel;
-import GUI.Model.MovieTableModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
@@ -53,7 +51,7 @@ public class NewMovieController extends BaseController implements Initializable 
 
     @Override
     public void setup() {
-        movieModel = getMoviemodel();
+        movieModel = getMovieModel();
         categoryModel = getCategoryModel();
 
         try {
@@ -102,7 +100,7 @@ public class NewMovieController extends BaseController implements Initializable 
             e.printStackTrace();
         }
 
-        if(newMovie != null) movieModel.getMoviesObservableList().add(new MovieTableModel(
+        if(newMovie != null) movieModel.getMoviesObservableList().add(new Movie(
                 newMovie.getId(),
                 newMovie.getTitle(),
                 newMovie.getFilepath(),

@@ -4,10 +4,7 @@ import BE.Category;
 import BE.Movie;
 import GUI.Model.CategoryModel;
 import GUI.Model.MovieModel;
-import GUI.Model.MovieTableModel;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +25,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -47,17 +43,17 @@ public class MovieCollectionController extends BaseController implements Initial
     public ListView<Category> allCategories;
 
     @FXML
-    TableView<MovieTableModel> movieTable;
+    TableView<Movie> movieTable;
     @FXML
-    private TableColumn<MovieTableModel, String> movieTitle;
+    private TableColumn<Movie, String> movieTitle;
     @FXML
-    private TableColumn<MovieTableModel, Integer> personalRating;
+    private TableColumn<Movie, Integer> personalRating;
     @FXML
-    private TableColumn<MovieTableModel, Integer> imdbRating;
+    private TableColumn<Movie, Integer> imdbRating;
     @FXML
-    private TableColumn<MovieTableModel, String> categories;
+    private TableColumn<Movie, String> categories;
     @FXML
-    private TableColumn<MovieTableModel, java.sql.Date> lastTimeWatched;
+    private TableColumn<Movie, java.sql.Date> lastTimeWatched;
 
 
     @Override
@@ -117,10 +113,9 @@ public class MovieCollectionController extends BaseController implements Initial
             imdbRating.setCellValueFactory(new PropertyValueFactory<>("IMDBRating"));
             // TODO: Categories
             movieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-            lastTimeWatched.setCellValueFactory(new PropertyValueFactory<MovieTableModel, Date>("lastWatched"));
+            lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
             List<Movie> movies = movieModel.getAllMovies();
-
 
 
             movieTable.setItems(movieModel.getMoviesObservableList());
@@ -128,8 +123,9 @@ public class MovieCollectionController extends BaseController implements Initial
             e.printStackTrace();
             showWarningDialog("Warning!", "Could not get movies!");
         }
-    }
 
+
+        }
 
     public void handleAddCategory() {
         Dialog<String> dialog = new TextInputDialog();
@@ -178,26 +174,47 @@ public class MovieCollectionController extends BaseController implements Initial
         });
     }
 
-    public void handleRateMovie() {
+    public void handleRateMovie(ActionEvent actionEvent) throws IOException {
+        Movie selectedMovie = movieTable.getSelectionModel().getSelectedItem();
+        if (selectedMovie != null) {
+            movieModel.setSelectedMovie(selectedMovie);
+
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/StarRating.fxml"));
+            Parent root = loader.load();
+
+            StarRatingController controller = loader.getController();
+            controller.setMovieModel(movieModel);
+            controller.setup();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Rate the Movie!");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+            stage.show();
+        }
     }
 
     public void handleAddMovie(ActionEvent actionEvent) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/NewMovieView.fxml"));
-        Parent root = loader.load();
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/NewMovieView.fxml"));
+            Parent root = loader.load();
 
-        NewMovieController controller = loader.getController();
-        controller.setMoviemodel(movieModel);
-        controller.setCategoryModel(categoryModel);
-        controller.setup();
+            NewMovieController controller = loader.getController();
+            controller.setMovieModel(movieModel);
+            controller.setCategoryModel(categoryModel);
+            controller.setup();
+
+            Stage dialogWindow = new Stage();
+            dialogWindow.setTitle("New Movie");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+            Scene scene = new Scene(root);
+            dialogWindow.setScene(scene);
+            dialogWindow.showAndWait();
+        }
 
 
-        stage.setScene(new Scene(root));
-        stage.setTitle("New Movie");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
-        stage.show();
-    }
 
     public void handleDeleteMovie() {
     }

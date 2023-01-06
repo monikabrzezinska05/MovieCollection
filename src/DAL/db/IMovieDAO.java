@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IMovieDAO {
 
-    Movie createMovie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception;
+    Movie createMovie(int id, String title, String filepath, java.sql.Date lastWatched, int IMDBRating) throws Exception;
 
     List<Movie> getMovies() throws Exception;
 

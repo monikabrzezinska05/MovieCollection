@@ -10,25 +10,18 @@ import java.util.List;
 public class MovieModel {
    private MovieManager movieManager;
 
-    private ObservableList<MovieTableModel> moviesObservableList;
+    private ObservableList<Movie> moviesObservableList;
+    private Movie selectedMovie;
 
     public MovieModel() throws Exception {
         movieManager = new MovieManager();
         var movies = getAllMovies();
 
         moviesObservableList = FXCollections.observableArrayList();
-
-        movies.forEach(movie -> moviesObservableList.add(new MovieTableModel(
-            movie.getId(),
-            movie.getTitle(),
-            movie.getFilepath(),
-            movie.getLastWatched(),
-            movie.getPersonalRating(),
-            movie.getIMDBRating()
-        )));
+        moviesObservableList.addAll(movies);
     }
 
-    public ObservableList<MovieTableModel> getMoviesObservableList() {
+    public ObservableList<Movie> getMoviesObservableList() {
         return moviesObservableList;
     }
 
@@ -45,4 +38,18 @@ public class MovieModel {
         return movieManager.getMovies();
     }
 
+    public void updateMovie(Movie updatedRating) throws Exception {
+        movieManager.updateRating(updatedRating);
+        moviesObservableList.clear();
+        moviesObservableList.addAll(movieManager.getMovies());
+    }
+
+    public void setSelectedMovie(Movie selectedMovie) {
+        this.selectedMovie = selectedMovie;
+    }
+    
+    public Movie getSelectedMovie(){
+        return selectedMovie;
+    }
+    
 }

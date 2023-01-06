@@ -5,15 +5,15 @@ import GUI.Model.MovieModel;
 
 public abstract class BaseController {
 
-    private MovieModel moviemodel;
+    public MovieModel movieModel;
     private CategoryModel categoryModel;
 
-    public MovieModel getMoviemodel() {
-        return moviemodel;
+    public MovieModel getMovieModel() {
+        return movieModel;
     }
 
-    public void setMoviemodel(MovieModel moviemodel) {
-        this.moviemodel = moviemodel;
+    public void setMovieModel(MovieModel movieModel) {
+        this.movieModel = movieModel;
     }
 
     public CategoryModel getCategoryModel() {

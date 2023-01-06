@@ -1,6 +1,7 @@
 package DAL.db;
 
 import BE.Movie;
+import org.controlsfx.control.Rating;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -84,6 +85,22 @@ public class MovieDAO_DB {
 
             statement.execute();
 
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception();
+        }
+    }
+
+    public void updateRating(Movie movie) throws Exception {
+        try (Connection connection = databaseConnector.getConnection()) {
+            String sql = "UPDATE Movies SET PersonalRating = ? WHERE Id = ?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, movie.getPersonalRating());
+            statement.setInt(2, movie.getId());
+
+            statement.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new Exception();

@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.Movie;
 import GUI.Model.MovieModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,13 +16,12 @@ public class StarRatingController extends BaseController implements Initializabl
 
     public Button cancelRating;
     public Button saveRating;
-    private MovieModel movieModel;
     @FXML
     private Rating movieRating;
 
     @Override
     public void setup() {
-        movieModel = getMoviemodel();
+        movieModel = getMovieModel();
     }
 
     @Override
@@ -33,8 +33,16 @@ public class StarRatingController extends BaseController implements Initializabl
         stage.close();
     }
 
-    public void handleSaveRating(ActionEvent actionEvent) {
-        System.out.println("Your personal Rating is:" + movieRating.getRating());
+    public void handleSaveRating(ActionEvent actionEvent) throws Exception {
+       movieRating.getRating();
+       Movie ratingToBeUpdated = movieModel.getSelectedMovie();
+
+       ratingToBeUpdated.setPersonalRating((int)movieRating.getRating());
+
+       movieModel.updateMovie(ratingToBeUpdated);
+
+       Stage stage = (Stage) cancelRating.getScene().getWindow();
+       stage.close();
     }
 
 }
