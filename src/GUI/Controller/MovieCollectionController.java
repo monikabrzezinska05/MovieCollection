@@ -161,7 +161,20 @@ public class MovieCollectionController extends BaseController implements Initial
         });
     }
 
-    public void handleRateMovie() {
+    public void handleRateMovie(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/StarRating.fxml"));
+        Parent root = loader.load();
+
+        StarRatingController controller = loader.getController();
+        controller.setMoviemodel(movieModel);
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("Rate the Movie");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        stage.show();
     }
 
     public void handleAddMovie(ActionEvent actionEvent) throws IOException {
@@ -198,14 +211,4 @@ public class MovieCollectionController extends BaseController implements Initial
         alert.showAndWait();
     }
 
-    private File getMovieFile() {
-        JFileChooser jfc = new JFileChooser();
-        return jfc.getSelectedFile();
-    }
-
-    private void mouseClicked(MouseEvent event) throws IOException {
-        if(event.getClickCount() == 2 && event.getButton() == MouseEvent.BUTTON1) {
-            Desktop.getDesktop().open(getMovieFile());
-        }
-    }
 }
