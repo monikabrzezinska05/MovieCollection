@@ -72,13 +72,6 @@ public class MovieCollectionController extends BaseController implements Initial
         });
     }
 
-    private void mouseClicked(MouseEvent event) throws IOException {
-        if(event.getClickCount() == 2 && event.getButton() == MouseEvent.BUTTON1) {
-            System.out.println("Double Click");
-            //Desktop.getDesktop().open(getMovieFile());
-        }
-    }
-
     @Override
     public void setup() {
         try {
@@ -125,7 +118,7 @@ public class MovieCollectionController extends BaseController implements Initial
         }
 
 
-        }
+    }
 
     public void handleAddCategory() {
         Dialog<String> dialog = new TextInputDialog();
@@ -215,8 +208,30 @@ public class MovieCollectionController extends BaseController implements Initial
         }
 
 
+    public void handleDeleteMovie(ActionEvent actionEvent) throws Exception {
+        Movie selectedMovie = movieTable.getSelectionModel().getSelectedItem();
+        if (selectedMovie != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Movie");
+            alert.setGraphic(null);
+            alert.setHeaderText(null);
+            alert.setContentText("Do you want to delete the movie?: " + selectedMovie.getTitle());
+            ButtonType okButton = new ButtonType("Delete", ButtonBar.ButtonData.YES);
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(okButton, cancelButton);
 
-    public void handleDeleteMovie() {
+            alert.showAndWait().ifPresent(type -> {
+                if (type == okButton) {
+                    try {
+                        movieModel.deleteMovie(selectedMovie);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        showWarningDialog("Warning!", "Could not delete Movie: " + selectedMovie.getTitle());
+                    }
+                    movieModel.getMoviesObservableList().remove(selectedMovie);
+                }
+            });
+        }
     }
 
     public void handleSearchButton() {
@@ -231,11 +246,5 @@ public class MovieCollectionController extends BaseController implements Initial
 
         alert.showAndWait();
     }
-
-    private File getMovieFile() {
-        JFileChooser jfc = new JFileChooser();
-        return jfc.getSelectedFile();
-    }
-
 
 }
