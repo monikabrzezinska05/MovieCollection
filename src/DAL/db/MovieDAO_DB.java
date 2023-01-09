@@ -154,11 +154,12 @@ public class MovieDAO_DB {
     public void deleteMovie(Movie movie) throws Exception {
 
         try (Connection connection = databaseConnector.getConnection()) {
-            String sql = "DELETE FROM Movies WHERE Id = ?";
+            String sql = "DELETE FROM MovieCategoryRelation WHERE Movie = ?;DELETE FROM Movies WHERE Id = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setInt(1, movie.getId());
+            statement.setInt(2, movie.getId());
 
             statement.execute();
 
