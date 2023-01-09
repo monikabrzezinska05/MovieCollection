@@ -100,14 +100,23 @@ public class NewMovieController extends BaseController implements Initializable 
             e.printStackTrace();
         }
 
-        if(newMovie != null) movieModel.getMoviesObservableList().add(new Movie(
-                newMovie.getId(),
-                newMovie.getTitle(),
-                newMovie.getFilepath(),
-                newMovie.getLastWatched(),
-                newMovie.getPersonalRating(),
-                newMovie.getIMDBRating()
-        ));
+        var selectedCategories = categoryComboBox.getCheckModel().getCheckedItems();
+
+        for(Category c : selectedCategories) {
+            try {
+                movieModel.addCategoryToMovie(newMovie, c);
+            } catch (Exception e) {
+                System.out.printf("Could not add category %s to movie %s%n", c.getName(), newMovie.getTitle());
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            movieModel.getMoviesObservableList().add(movieModel.getMovieById(newMovie.getId()));
+        } catch (Exception e) {
+            System.out.println("Could not get newly created movie!");
+            e.printStackTrace();
+        }
 
         Stage stage = (Stage) cancelMovieButton.getScene().getWindow();
         stage.close();

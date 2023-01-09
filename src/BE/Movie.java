@@ -1,7 +1,5 @@
 package BE;
 
-import java.util.Date;
-
 public class Movie {
 
     private int id;
@@ -11,6 +9,7 @@ public class Movie {
     private int personalRating;
     private int IMDBRating;
 
+    private String categories = "";
 
     public Movie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) {
         setId(id);
@@ -69,4 +68,11 @@ public class Movie {
         this.IMDBRating = IMDBRating;
     }
 
+    public void setCategories(String categories) {
+        this.categories = categories;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
 }

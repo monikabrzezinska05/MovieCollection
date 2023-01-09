@@ -98,7 +98,7 @@ public class MovieCollectionController extends BaseController implements Initial
         movieTitle.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
         personalRating.setCellValueFactory(new PropertyValueFactory<>("personalRating"));
         imdbRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
-        categories.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().toString())); // TODO: Fix this pls
+        categories.setCellValueFactory(new PropertyValueFactory<>("categories")); // TODO: Fix this pls
         lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
         try {

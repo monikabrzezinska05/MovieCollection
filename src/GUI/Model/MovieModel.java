@@ -1,5 +1,6 @@
 package GUI.Model;
 
+import BE.Category;
 import BE.Movie;
 import BLL.MovieManager;
 import javafx.collections.FXCollections;
@@ -38,6 +39,10 @@ public class MovieModel {
         return movieManager.getMovies();
     }
 
+    public Movie getMovieById(int id) throws Exception {
+        return movieManager.getMovieById(id);
+    }
+
     public void updateMovie(Movie updatedRating) throws Exception {
         movieManager.updateRating(updatedRating);
         moviesObservableList.clear();
@@ -51,5 +56,8 @@ public class MovieModel {
     public Movie getSelectedMovie(){
         return selectedMovie;
     }
-    
+
+    public void addCategoryToMovie(Movie newMovie, Category c) throws Exception {
+        movieManager.addCategoryToMovie(newMovie, c);
+    }
 }

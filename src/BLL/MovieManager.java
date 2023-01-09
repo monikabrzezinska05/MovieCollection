@@ -18,6 +18,10 @@ public class MovieManager {
         return movieDAO.getAllMovies();
     }
 
+    public Movie getMovieById(int id) throws Exception {
+        return movieDAO.getMovieById(id);
+    }
+
     public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception{
         return movieDAO.createMovie(title, filepath, lastWatched, personalRating, IMDBRating);
     }
@@ -30,4 +34,8 @@ public class MovieManager {
         movieDAO.updateRating(updatedRating);
     }
 
+
+    public void addCategoryToMovie(Movie newMovie, Category c) throws Exception {
+        movieDAO.addCategoryToMovie(newMovie, c);
+    }
 }

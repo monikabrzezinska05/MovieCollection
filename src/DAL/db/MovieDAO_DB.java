@@ -1,6 +1,8 @@
 package DAL.db;
 
+import BE.Category;
 import BE.Movie;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import org.controlsfx.control.Rating;
 
 import java.sql.*;
@@ -32,6 +34,20 @@ public class MovieDAO_DB {
                     int IMDBRating = resultSet.getInt("IMDBRating");
 
                     Movie movie = new Movie(id, title, filepath, lastwatched, personalRating, IMDBRating);
+
+                    var categories = getMoviesCategories(movie);
+
+                    if(categories.size() > 0) {
+
+                        StringBuilder sb = new StringBuilder();
+
+                        for (Category c : categories) {
+                            sb.append(c.getName()).append(", ");
+                        }
+
+                        movie.setCategories(sb.deleteCharAt(sb.length() - 2).toString());
+                    }
+
                     allMovies.add(movie);
                 }
             }
@@ -39,12 +55,73 @@ public class MovieDAO_DB {
         return allMovies;
     }
 
+
+
+    public Movie getMovieById(int movieId) throws Exception {
+        try(Connection connection = databaseConnector.getConnection()) {
+            String sql = "SELECT * FROM Movies WHERE Id = ?;";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, movieId);
+
+            var resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                int id = resultSet.getInt("Id");
+                String title = resultSet.getString("Title");
+                String filepath = resultSet.getString("FilePath");
+                java.sql.Date lastwatched = resultSet.getDate("LastWatched");
+                int personalRating = resultSet.getInt("PersonalRating");
+                int IMDBRating = resultSet.getInt("IMDBRating");
+
+                Movie movie = new Movie(id, title, filepath, lastwatched, personalRating, IMDBRating);
+
+                var categories = getMoviesCategories(movie);
+
+                if(categories.size() > 0) {
+
+                    StringBuilder sb = new StringBuilder();
+
+                    for (Category c : categories) {
+                        sb.append(c.getName()).append(", ");
+                    }
+
+                    movie.setCategories(sb.deleteCharAt(sb.length() - 2).toString());
+                }
+
+                return movie;
+
+            }
+        }
+        return null;
+    }
+
+    public List<Category> getMoviesCategories(Movie movie) throws Exception {
+
+        ArrayList<Category> categories = new ArrayList<>();
+        try(Connection connection = databaseConnector.getConnection()) {
+            String sql = "SELECT Category FROM MovieCategoryRelation WHERE Movie = ?;";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, movie.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                categories.add(new Category(resultSet.getString(1)));
+            }
+
+        }
+        return categories;
+    }
+
     public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception{
         String sql = "INSERT INTO Movies (Title, FilePath, LastWatched, PersonalRating, IMDBRating) VALUES (?,?,?,?,?);";
 
         try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
 
             //Bind parameters.
             statement.setString(1, title);
@@ -107,4 +184,19 @@ public class MovieDAO_DB {
         }
     }
 
+    public void addCategoryToMovie(Movie movie, Category c) throws Exception {
+        try (Connection connection = databaseConnector.getConnection()) {
+            String sql = "INSERT INTO MovieCategoryRelation (Category, Movie) VALUES (?, ?);";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setString(1, c.getName());
+            statement.setInt(2, movie.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception();
+        }
+    }
 }
