@@ -5,6 +5,7 @@ import BE.Movie;
 import GUI.Model.CategoryModel;
 import GUI.Model.MovieModel;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,9 +55,6 @@ public class MovieCollectionController extends BaseController implements Initial
     private TableColumn<Movie, String> categories;
     @FXML
     private TableColumn<Movie, java.sql.Date> lastTimeWatched;
-
-    private FilteredList<Movie> filteredList;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -111,16 +109,11 @@ public class MovieCollectionController extends BaseController implements Initial
             movieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
             lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
-            List<Movie> movies = movieModel.getAllMovies(categoryModel.getCategoryObservableList());
-
-            filteredList = new FilteredList<>(movieModel.getMoviesObservableList());
-            movieTable.setItems(filteredList);
+            movieTable.setItems(movieModel.getMoviesObservableList());
         } catch (Exception e) {
             e.printStackTrace();
             showWarningDialog("Warning!", "Could not get movies!");
         }
-
-
     }
 
     public void handleAddCategory() {
@@ -276,7 +269,9 @@ public class MovieCollectionController extends BaseController implements Initial
             return titleContainsString;
         });
 
-        movieTable.setItems(filteredList);
-    }
+        var sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(movieTable.comparatorProperty()); // Makes the sorted list work on table column sort.
 
+        movieTable.setItems(sortedList);
+    }
 }
