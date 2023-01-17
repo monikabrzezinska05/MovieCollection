@@ -181,6 +181,7 @@ public class MovieCollectionController extends BaseController implements Initial
 
             StarRatingController controller = loader.getController();
             controller.setMovieModel(movieModel);
+            controller.setCategoryModel(categoryModel);
             controller.setup();
 
             stage.setScene(new Scene(root));
