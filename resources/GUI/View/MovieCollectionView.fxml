@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MovieCollectionController">
    <children>
-      <ListView fx:id="allCategories" layoutX="34.0" layoutY="117.0" onMousePressed="#filterMovies" prefHeight="550.0" prefWidth="221.0" />
+      <ListView fx:id="allCategories" layoutX="34.0" layoutY="117.0" onMouseClicked="#filterMovies" prefHeight="550.0" prefWidth="221.0" />
       <Label layoutX="95.0" layoutY="74.0" prefHeight="42.0" prefWidth="100.0" text="Category" textAlignment="CENTER">
          <font>
             <Font size="24.0" />

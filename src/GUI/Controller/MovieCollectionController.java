@@ -97,7 +97,7 @@ public class MovieCollectionController extends BaseController implements Initial
         lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
         try {
-            allCategories.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            allCategories.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
             allCategories.setItems(categoryModel.getCategoryObservableList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -251,13 +251,23 @@ public class MovieCollectionController extends BaseController implements Initial
     }
 
     public void filterMovies() {
-        var selectedCategory = allCategories.getSelectionModel().getSelectedItem();
+        var selectedCategories = allCategories.getSelectionModel().getSelectedItems();
+
         var filterString = filterStringTextField.textProperty().getValue().toLowerCase();
 
         var filteredList = new FilteredList<>(movieModel.getMoviesObservableList());
 
         filteredList.setPredicate(movie -> {
-            boolean isInCategory = (selectedCategory == null) ? true : movie.getCategoryList().contains(selectedCategory);
+            boolean isInCategory = selectedCategories.size() == 0;
+
+            if(!isInCategory) {
+                for(var c : selectedCategories) {
+                    if(movie.getCategoryList().contains(c)) {
+                        isInCategory = true;
+                        break;
+                    }
+                }
+            }
 
             if(!isInCategory) return false;
 
