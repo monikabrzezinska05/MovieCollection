@@ -39,7 +39,7 @@ public class StarRatingController extends BaseController implements Initializabl
 
        ratingToBeUpdated.setPersonalRating((int)movieRating.getRating());
 
-       movieModel.updateMovie(ratingToBeUpdated);
+       movieModel.updateMovie(ratingToBeUpdated, getCategoryModel().getCategoryObservableList());
 
        Stage stage = (Stage) cancelRating.getScene().getWindow();
        stage.close();

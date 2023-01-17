@@ -14,12 +14,12 @@ public class MovieManager {
         movieDAO = new MovieDAO_DB();
     }
 
-    public List<Movie> getMovies() throws Exception {
-        return movieDAO.getAllMovies();
+    public List<Movie> getMovies(List<Category> categories) throws Exception {
+        return movieDAO.getAllMovies(categories);
     }
 
-    public Movie getMovieById(int id) throws Exception {
-        return movieDAO.getMovieById(id);
+    public Movie getMovieById(int id, List<Category> categories) throws Exception {
+        return movieDAO.getMovieById(id, categories);
     }
 
     public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception{

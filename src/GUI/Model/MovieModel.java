@@ -14,9 +14,9 @@ public class MovieModel {
     private ObservableList<Movie> moviesObservableList;
     private Movie selectedMovie;
 
-    public MovieModel() throws Exception {
+    public MovieModel(List<Category> categories) throws Exception {
         movieManager = new MovieManager();
-        var movies = getAllMovies();
+        var movies = getAllMovies(categories);
 
         moviesObservableList = FXCollections.observableArrayList();
         moviesObservableList.addAll(movies);
@@ -35,18 +35,18 @@ public class MovieModel {
         moviesObservableList.remove(deletedMovie);
     }
 
-    public List<Movie> getAllMovies() throws Exception {
-        return movieManager.getMovies();
+    public List<Movie> getAllMovies(List<Category> categories) throws Exception {
+        return movieManager.getMovies(categories);
     }
 
-    public Movie getMovieById(int id) throws Exception {
-        return movieManager.getMovieById(id);
+    public Movie getMovieById(int id, List<Category> categories) throws Exception {
+        return movieManager.getMovieById(id, categories);
     }
 
-    public void updateMovie(Movie updatedRating) throws Exception {
+    public void updateMovie(Movie updatedRating, List<Category> categories) throws Exception {
         movieManager.updateRating(updatedRating);
         moviesObservableList.clear();
-        moviesObservableList.addAll(movieManager.getMovies());
+        moviesObservableList.addAll(movieManager.getMovies(categories));
     }
 
     public void setSelectedMovie(Movie selectedMovie) {

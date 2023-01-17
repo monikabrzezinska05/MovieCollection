@@ -16,7 +16,7 @@ public class MovieDAO_DB {
         databaseConnector = new DatabaseConnector();
     }
 
-    public List<Movie> getAllMovies() throws Exception {
+    public List<Movie> getAllMovies(List<Category> categoriesList) throws Exception {
         ArrayList<Movie> allMovies = new ArrayList<>();
         try(Connection connection = databaseConnector.getConnection()) {
             String sql = "SELECT * FROM Movies;";
@@ -35,18 +35,9 @@ public class MovieDAO_DB {
 
                     Movie movie = new Movie(id, title, filepath, lastwatched, personalRating, IMDBRating);
 
-                    var categories = getMoviesCategories(movie);
+                    var categories = getMoviesCategories(movie, categoriesList);
 
-                    if(categories.size() > 0) {
-
-                        StringBuilder sb = new StringBuilder();
-
-                        for (Category c : categories) {
-                            sb.append(c.getName()).append(", ");
-                        }
-
-                        movie.setCategories(sb.deleteCharAt(sb.length() - 2).toString());
-                    }
+                    movie.setCategoryList(categories);
 
                     allMovies.add(movie);
                 }
@@ -57,7 +48,7 @@ public class MovieDAO_DB {
 
 
 
-    public Movie getMovieById(int movieId) throws Exception {
+    public Movie getMovieById(int movieId, List<Category> categoryList) throws Exception {
         try(Connection connection = databaseConnector.getConnection()) {
             String sql = "SELECT * FROM Movies WHERE Id = ?;";
 
@@ -77,7 +68,7 @@ public class MovieDAO_DB {
 
                 Movie movie = new Movie(id, title, filepath, lastwatched, personalRating, IMDBRating);
 
-                var categories = getMoviesCategories(movie);
+                var categories = getMoviesCategories(movie, categoryList);
 
                 if(categories.size() > 0) {
 
@@ -97,7 +88,7 @@ public class MovieDAO_DB {
         return null;
     }
 
-    public List<Category> getMoviesCategories(Movie movie) throws Exception {
+    public List<Category> getMoviesCategories(Movie movie, List<Category> categoryList) throws Exception {
 
         ArrayList<Category> categories = new ArrayList<>();
         try(Connection connection = databaseConnector.getConnection()) {
@@ -110,9 +101,10 @@ public class MovieDAO_DB {
             ResultSet resultSet = statement.executeQuery();
 
             while(resultSet.next()) {
-                categories.add(new Category(resultSet.getString(1)));
+                String category = resultSet.getString(1);
+                var res = categoryList.stream().filter(c -> c.getName().equals(category)).findFirst();
+                res.ifPresent(categoryToAdd -> categories.add(categoryToAdd));
             }
-
         }
         return categories;
     }

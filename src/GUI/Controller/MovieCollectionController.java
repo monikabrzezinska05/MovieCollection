@@ -4,7 +4,7 @@ import BE.Category;
 import BE.Movie;
 import GUI.Model.CategoryModel;
 import GUI.Model.MovieModel;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,13 +15,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +39,7 @@ public class MovieCollectionController extends BaseController implements Initial
     public Button addMovie;
     public Button deleteMovie;
     public Button searchButton;
+    public TextField filterStringTextField;
     public ListView<Category> allCategories;
 
     @FXML
@@ -54,6 +54,8 @@ public class MovieCollectionController extends BaseController implements Initial
     private TableColumn<Movie, String> categories;
     @FXML
     private TableColumn<Movie, java.sql.Date> lastTimeWatched;
+
+    private FilteredList<Movie> filteredList;
 
 
     @Override
@@ -82,7 +84,7 @@ public class MovieCollectionController extends BaseController implements Initial
         }
 
         try {
-            movieModel = new MovieModel();
+            movieModel = new MovieModel(categoryModel.getCategoryObservableList());
         } catch (Exception e) {
             System.out.println("Could not create MovieModel");
             e.printStackTrace();
@@ -91,10 +93,11 @@ public class MovieCollectionController extends BaseController implements Initial
         movieTitle.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
         personalRating.setCellValueFactory(new PropertyValueFactory<>("personalRating"));
         imdbRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
-        categories.setCellValueFactory(new PropertyValueFactory<>("categories")); // TODO: Fix this pls
+        categories.setCellValueFactory(new PropertyValueFactory<>("categories"));
         lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
         try {
+            allCategories.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             allCategories.setItems(categoryModel.getCategoryObservableList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,10 +111,10 @@ public class MovieCollectionController extends BaseController implements Initial
             movieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
             lastTimeWatched.setCellValueFactory(new PropertyValueFactory<>("lastWatched"));
 
-            List<Movie> movies = movieModel.getAllMovies();
+            List<Movie> movies = movieModel.getAllMovies(categoryModel.getCategoryObservableList());
 
-
-            movieTable.setItems(movieModel.getMoviesObservableList());
+            filteredList = new FilteredList<>(movieModel.getMoviesObservableList());
+            movieTable.setItems(filteredList);
         } catch (Exception e) {
             e.printStackTrace();
             showWarningDialog("Warning!", "Could not get movies!");
@@ -205,6 +208,8 @@ public class MovieCollectionController extends BaseController implements Initial
             Scene scene = new Scene(root);
             dialogWindow.setScene(scene);
             dialogWindow.showAndWait();
+
+            filterMovies();
         }
 
 
@@ -234,17 +239,33 @@ public class MovieCollectionController extends BaseController implements Initial
         }
     }
 
-    public void handleSearchButton() {
-
-    }
-
     private void showWarningDialog(String title, String contentText) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(null);
+
         alert.setContentText(contentText);
 
         alert.showAndWait();
+    }
+
+    public void filterMovies() {
+        var selectedCategory = allCategories.getSelectionModel().getSelectedItem();
+        var filterString = filterStringTextField.textProperty().getValue().toLowerCase();
+
+        var filteredList = new FilteredList<>(movieModel.getMoviesObservableList());
+
+        filteredList.setPredicate(movie -> {
+            boolean isInCategory = (selectedCategory == null) ? true : movie.getCategoryList().contains(selectedCategory);
+
+            if(!isInCategory) return false;
+
+            boolean titleContainsString = movie.getTitle().toLowerCase().contains(filterString);
+
+            return titleContainsString;
+        });
+
+        movieTable.setItems(filteredList);
     }
 
 }

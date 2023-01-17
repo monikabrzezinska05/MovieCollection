@@ -112,7 +112,7 @@ public class NewMovieController extends BaseController implements Initializable 
         }
 
         try {
-            movieModel.getMoviesObservableList().add(movieModel.getMovieById(newMovie.getId()));
+            movieModel.getMoviesObservableList().add(movieModel.getMovieById(newMovie.getId(), categoryModel.getCategoryObservableList()));
         } catch (Exception e) {
             System.out.println("Could not get newly created movie!");
             e.printStackTrace();

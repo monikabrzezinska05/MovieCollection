@@ -1,5 +1,8 @@
 package BE;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Movie {
 
     private int id;
@@ -11,6 +14,8 @@ public class Movie {
 
     private String categories = "";
 
+    private List<Category> categoryList;
+
     public Movie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) {
         setId(id);
         setTitle(title);
@@ -18,6 +23,8 @@ public class Movie {
         setLastWatched(lastWatched);
         setPersonalRating(personalRating);
         setIMDBRating(IMDBRating);
+
+        this.categoryList = new ArrayList<>();
     }
 
     public int getId() {
@@ -74,5 +81,28 @@ public class Movie {
 
     public String getCategories() {
         return categories;
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+
+        updateCategoryString();
+    }
+
+    private void updateCategoryString() {
+        if(categoryList.size() > 0) {
+
+            StringBuilder sb = new StringBuilder();
+
+            for (Category c : categoryList) {
+                sb.append(c.getName()).append(", ");
+            }
+
+            this.setCategories(sb.deleteCharAt(sb.length() - 2).toString());
+        }
     }
 }
