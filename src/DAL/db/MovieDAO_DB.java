@@ -31,7 +31,7 @@ public class MovieDAO_DB {
                     String filepath = resultSet.getString("FilePath");
                     java.sql.Date lastwatched = resultSet.getDate("LastWatched");
                     int personalRating = resultSet.getInt("PersonalRating");
-                    int IMDBRating = resultSet.getInt("IMDBRating");
+                    float IMDBRating = resultSet.getFloat("IMDBRating");
 
                     Movie movie = new Movie(id, title, filepath, lastwatched, personalRating, IMDBRating);
 
@@ -64,7 +64,7 @@ public class MovieDAO_DB {
                 String filepath = resultSet.getString("FilePath");
                 java.sql.Date lastwatched = resultSet.getDate("LastWatched");
                 int personalRating = resultSet.getInt("PersonalRating");
-                int IMDBRating = resultSet.getInt("IMDBRating");
+                float IMDBRating = resultSet.getFloat("IMDBRating");
 
                 Movie movie = new Movie(id, title, filepath, lastwatched, personalRating, IMDBRating);
 

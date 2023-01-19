@@ -10,13 +10,13 @@ public class Movie {
     private String filepath;
     private java.sql.Date lastWatched;
     private int personalRating;
-    private int IMDBRating;
+    private float IMDBRating;
 
     private String categories = "";
 
     private List<Category> categoryList;
 
-    public Movie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) {
+    public Movie(int id, String title, String filepath, java.sql.Date lastWatched, int personalRating, float IMDBRating) {
         setId(id);
         setTitle(title);
         setFilepath(filepath);
@@ -67,11 +67,11 @@ public class Movie {
         this.personalRating = personalRating;
     }
 
-    public int getIMDBRating() {
+    public float getIMDBRating() {
         return IMDBRating;
     }
 
-    public void setIMDBRating(int IMDBRating) {
+    public void setIMDBRating(float IMDBRating) {
         this.IMDBRating = IMDBRating;
     }
 
