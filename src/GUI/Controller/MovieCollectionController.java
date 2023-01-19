@@ -99,6 +99,7 @@ public class MovieCollectionController extends BaseController implements Initial
                     showWarningDialog("Error", "Couldn't open the selected Movie");
                     e.printStackTrace();
                 }
+                movieTable.refresh();
             }
         });
 
