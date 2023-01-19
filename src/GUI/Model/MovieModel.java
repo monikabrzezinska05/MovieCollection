@@ -26,7 +26,7 @@ public class MovieModel {
         return moviesObservableList;
     }
 
-    public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception {
+    public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, float IMDBRating) throws Exception {
         return movieManager.createMovie(title, filepath, lastWatched, personalRating, IMDBRating);
     }
 

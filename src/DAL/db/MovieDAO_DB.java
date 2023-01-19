@@ -109,7 +109,7 @@ public class MovieDAO_DB {
         return categories;
     }
 
-    public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, int IMDBRating) throws Exception{
+    public Movie createMovie(String title, String filepath, java.sql.Date lastWatched, int personalRating, float IMDBRating) throws Exception{
         String sql = "INSERT INTO Movies (Title, FilePath, LastWatched, PersonalRating, IMDBRating) VALUES (?,?,?,?,?);";
 
         try (Connection connection = databaseConnector.getConnection()) {
@@ -120,7 +120,7 @@ public class MovieDAO_DB {
             statement.setString(2, filepath);
             statement.setDate(3, lastWatched);
             statement.setInt(4, personalRating);
-            statement.setInt(5, IMDBRating);
+            statement.setFloat(5, IMDBRating);
 
             //Run the specified SQL statement.
             statement.executeUpdate();
