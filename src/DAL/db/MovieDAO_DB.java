@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDAO_DB {
+public class MovieDAO_DB implements IMovieDAO{
     private DatabaseConnector databaseConnector;
 
     public MovieDAO_DB() {
