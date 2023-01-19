@@ -6,8 +6,7 @@ import GUI.Model.CategoryModel;
 import GUI.Model.MovieModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
@@ -85,6 +84,23 @@ public class NewMovieController extends BaseController implements Initializable 
         if(movieTitleTextField.getText().isEmpty()) return;
         if(imdbRatingTextField.getText().isEmpty()) return;
 
+        float ImdbRating;
+
+        try {
+            ImdbRating = Float.parseFloat(imdbRatingTextField.getText());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("ImdbRating error!");
+            alert.setGraphic(null);
+            alert.setHeaderText(null);
+            alert.setContentText("The IMDB rating must be a number with one or less decimals!");
+            ButtonType okButton = new ButtonType("Delete", ButtonBar.ButtonData.YES);
+            alert.getButtonTypes().setAll(okButton);
+
+            alert.showAndWait();
+            return;
+        }
+
         Movie newMovie = null;
 
         try {
@@ -93,7 +109,7 @@ public class NewMovieController extends BaseController implements Initializable 
                 selectedFile.getAbsolutePath(),
                 new Date(System.currentTimeMillis()),
                 0,
-                42
+                ImdbRating
             );
         } catch (Exception e) {
             System.out.println("Could not create movie!");
