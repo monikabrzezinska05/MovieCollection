@@ -192,4 +192,20 @@ public class MovieDAO_DB {
             throw new Exception();
         }
     }
+
+    public void setLastTimeWatched(Movie movie, Date date) throws Exception {
+        try (Connection connection = databaseConnector.getConnection()) {
+            String sql = "UPDATE Movies SET LastWatched = ? WHERE Id = ?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setDate(1, date);
+            statement.setInt(2, movie.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception();
+        }
+    }
 }

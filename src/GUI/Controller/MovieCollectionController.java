@@ -25,6 +25,10 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -58,18 +62,7 @@ public class MovieCollectionController extends BaseController implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        movieTable.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                var selectedMovie = movieTable.getSelectionModel().getSelectedItem();
-                File movieToOpen = new File(selectedMovie.getFilepath());
-                try {
-                    Desktop.getDesktop().open(movieToOpen);
-                } catch (IOException e) {
-                    showWarningDialog("Error", "Couldn't open the selected Movie");
-                    e.printStackTrace();
-                }
-            }
-        });
+
     }
 
     @Override
@@ -83,10 +76,31 @@ public class MovieCollectionController extends BaseController implements Initial
 
         try {
             movieModel = new MovieModel(categoryModel.getCategoryObservableList());
+
         } catch (Exception e) {
             System.out.println("Could not create MovieModel");
             e.printStackTrace();
         }
+        movieTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                var selectedMovie = movieTable.getSelectionModel().getSelectedItem();
+                File movieToOpen = new File(selectedMovie.getFilepath());
+                long millis = System.currentTimeMillis();
+                java.sql.Date date = new java.sql.Date(millis);
+                try {
+                    movieModel.setLastTimeWatched(selectedMovie, date);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    Desktop.getDesktop().open(movieToOpen);
+                } catch (IOException e) {
+                    showWarningDialog("Error", "Couldn't open the selected Movie");
+                    e.printStackTrace();
+                }
+            }
+        });
 
         movieTitle.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
         personalRating.setCellValueFactory(new PropertyValueFactory<>("personalRating"));

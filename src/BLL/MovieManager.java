@@ -4,6 +4,7 @@ import BE.Category;
 import BE.Movie;
 import DAL.db.MovieDAO_DB;
 
+import java.sql.Date;
 import java.util.List;
 
 public class MovieManager {
@@ -37,5 +38,9 @@ public class MovieManager {
 
     public void addCategoryToMovie(Movie newMovie, Category c) throws Exception {
         movieDAO.addCategoryToMovie(newMovie, c);
+    }
+
+    public void setLastTimeWatched(Movie movie, Date date) throws Exception {
+        movieDAO.setLastTimeWatched(movie, date);
     }
 }

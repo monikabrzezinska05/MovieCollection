@@ -60,4 +60,9 @@ public class MovieModel {
     public void addCategoryToMovie(Movie newMovie, Category c) throws Exception {
         movieManager.addCategoryToMovie(newMovie, c);
     }
+
+    public void setLastTimeWatched(Movie movie, java.sql.Date date) throws Exception {
+        movie.setLastWatched(date);
+        movieManager.setLastTimeWatched(movie, date);
+    }
 }
