@@ -25,11 +25,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -43,7 +39,6 @@ public class MovieCollectionController extends BaseController implements Initial
     public Button rateMovie;
     public Button addMovie;
     public Button deleteMovie;
-    public Button searchButton;
     public TextField filterStringTextField;
     public ListView<Category> allCategories;
 
@@ -62,7 +57,6 @@ public class MovieCollectionController extends BaseController implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
     }
 
     @Override
@@ -129,6 +123,13 @@ public class MovieCollectionController extends BaseController implements Initial
             e.printStackTrace();
             showWarningDialog("Warning!", "Could not get movies!");
         }
+
+        try {
+            openDeleteReminder();
+        } catch (IOException e) {
+            System.out.println("Could not open DeleteReminder window!");
+            e.printStackTrace();
+        }
     }
 
     public void handleAddCategory() {
@@ -169,6 +170,7 @@ public class MovieCollectionController extends BaseController implements Initial
             if (type == okButton) {
                 try {
                     categoryModel.deleteCategory(selectedCategory);
+                    movieTable.refresh();
                 } catch (Exception e) {
                     e.printStackTrace();
                     showWarningDialog("Warning!", "Could not delete category: " + selectedCategory.getName());
@@ -288,5 +290,33 @@ public class MovieCollectionController extends BaseController implements Initial
         sortedList.comparatorProperty().bind(movieTable.comparatorProperty()); // Makes the sorted list work on table column sort.
 
         movieTable.setItems(sortedList);
+    }
+
+    private void openDeleteReminder() throws IOException {
+
+        var filteredMovieList = movieModel.getMoviesObservableList().stream().filter(m -> {
+            if(m.getPersonalRating() < 6) return true;
+            if(m.getLastWatched().before(Date.valueOf(new Date(System.currentTimeMillis()).toLocalDate().minusYears(2)))) return true;
+
+            return false;
+        }).toList();
+
+        if(filteredMovieList.size() == 0) return;
+
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/ReminderView.fxml"));
+        Parent root = loader.load();
+
+        ReminderController controller = loader.getController();
+        controller.setMovieModel(movieModel);
+        controller.setCategoryModel(categoryModel);
+        controller.initData(filteredMovieList);
+        controller.setup();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("Delete reminder.");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(stage.getOwner());
+        stage.showAndWait();
     }
 }

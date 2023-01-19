@@ -105,4 +105,9 @@ public class Movie {
             this.setCategories(sb.deleteCharAt(sb.length() - 2).toString());
         }
     }
+
+    @Override
+    public String toString() {
+        return "%d - %s - %s".formatted(personalRating, title, getLastWatched().toLocalDate());
+    }
 }

@@ -71,11 +71,12 @@ public class CategoryDAO_DB implements ICategoryDAO {
     public void deleteCategory(Category category) throws Exception {
 
         try (Connection connection = databaseConnector.getConnection()) {
-            String sql = "DELETE FROM Categories WHERE Name = ?";
+            String sql = "DELETE FROM MovieCategoryRelation WHERE Category = ?;DELETE FROM Categories WHERE Name = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setString(1, category.getName());
+            statement.setString(2, category.getName());
 
             statement.execute();
 
